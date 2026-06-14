@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='utf-8'?>
+<q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2" xmlns:ns0="http://anss.org/xmlns/catalog/0.1">
+  <eventParameters publicID="smi:local/4031b029-3dc4-4bea-b07b-3f3c601b3d18">
+    <event publicID="quakeml:earthquake.usgs.gov/fdsnws/event/1/query?eventid=us2000d0cy&amp;format=quakeml" ns0:datasource="us" ns0:eventsource="us" ns0:eventid="2000d0cy">
+      <preferredOriginID>quakeml:earthquake.usgs.gov/product/origin/us2000d0cy/us/1525385708040</preferredOriginID>
+      <preferredMagnitudeID>quakeml:earthquake.usgs.gov/product/origin/us2000d0cy/us/1525385708040#magnitude</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>5 km SW of Heunghae, South Korea</text>
+        <type>earthquake name</type>
+      </description>
+      <creationInfo>
+        <agencyID>us</agencyID>
+        <creationTime>2021-01-05T19:06:11.682000Z</creationTime>
+      </creationInfo>
+      <origin publicID="quakeml:earthquake.usgs.gov/product/origin/us2000d0cy/us/1525385708040" ns0:datasource="us" ns0:dataid="us2000d0cy" ns0:eventsource="us" ns0:eventid="2000d0cy">
+        <time>
+          <value>2018-02-10T20:03:03.910000Z</value>
+        </time>
+        <latitude>
+          <value>36.0763</value>
+        </latitude>
+        <longitude>
+          <value>129.2983</value>
+        </longitude>
+        <depth>
+          <value>5400.0</value>
+          <uncertainty>3800.0</uncertainty>
+        </depth>
+        <quality>
+          <usedPhaseCount>199</usedPhaseCount>
+          <standardError>0.57</standardError>
+          <azimuthalGap>22.0</azimuthalGap>
+          <minimumDistance>1.547</minimumDistance>
+        </quality>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-05-03T22:15:08.040000Z</creationTime>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>3300.0</horizontalUncertainty>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="quakeml:earthquake.usgs.gov/product/origin/us2000d0cy/us/1525385708040#magnitude" ns0:datasource="us" ns0:dataid="us2000d0cy" ns0:eventsource="us" ns0:eventid="2000d0cy">
+        <mag>
+          <value>4.7</value>
+          <uncertainty>0.078</uncertainty>
+        </mag>
+        <type>mww</type>
+        <originID>quakeml:earthquake.usgs.gov/product/origin/us2000d0cy/us/1525385708040</originID>
+        <stationCount>16</stationCount>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-05-03T22:15:08.040000Z</creationTime>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="quakeml:earthquake.usgs.gov/fdsnws/event/1/query?eventid=us2000bnsz&amp;format=quakeml" ns0:datasource="us" ns0:eventsource="us" ns0:eventid="2000bnsz">
+      <preferredOriginID>quakeml:earthquake.usgs.gov/product/origin/us2000bnsz/us/1517885135040</preferredOriginID>
+      <preferredMagnitudeID>quakeml:earthquake.usgs.gov/product/origin/us2000bnsz/us/1517885135040#magnitude</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>4 km WNW of Pohang, South Korea</text>
+        <type>earthquake name</type>
+      </description>
+      <creationInfo>
+        <agencyID>us</agencyID>
+        <creationTime>2021-01-05T19:03:17.047000Z</creationTime>
+      </creationInfo>
+      <origin publicID="quakeml:earthquake.usgs.gov/product/origin/us2000bnsz/us/1517885135040" ns0:datasource="us" ns0:dataid="us2000bnsz" ns0:eventsource="us" ns0:eventid="2000bnsz">
+        <time>
+          <value>2017-11-15T07:49:30.600000Z</value>
+        </time>
+        <latitude>
+          <value>36.0394</value>
+        </latitude>
+        <longitude>
+          <value>129.318</value>
+        </longitude>
+        <depth>
+          <value>10000.0</value>
+          <uncertainty>1800.0</uncertainty>
+        </depth>
+        <quality>
+          <usedPhaseCount>73</usedPhaseCount>
+          <standardError>0.51</standardError>
+          <azimuthalGap>101.0</azimuthalGap>
+          <minimumDistance>1.509</minimumDistance>
+        </quality>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-02-06T02:45:35.040000Z</creationTime>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>5600.0</horizontalUncertainty>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="quakeml:earthquake.usgs.gov/product/origin/us2000bnsz/us/1517885135040#magnitude" ns0:datasource="us" ns0:dataid="us2000bnsz" ns0:eventsource="us" ns0:eventid="2000bnsz">
+        <mag>
+          <value>4.7</value>
+          <uncertainty>0.062</uncertainty>
+        </mag>
+        <type>mb</type>
+        <originID>quakeml:earthquake.usgs.gov/product/origin/us2000bnsz/us/1517885135040</originID>
+        <stationCount>80</stationCount>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-02-06T02:45:35.040000Z</creationTime>
+        </creationInfo>
+      </magnitude>
+    </event>
+    <event publicID="quakeml:earthquake.usgs.gov/fdsnws/event/1/query?eventid=us2000bnrs&amp;format=quakeml" ns0:datasource="us" ns0:eventsource="us" ns0:eventid="2000bnrs">
+      <preferredOriginID>quakeml:earthquake.usgs.gov/product/origin/us2000bnrs/us/1517885135040</preferredOriginID>
+      <preferredMagnitudeID>quakeml:earthquake.usgs.gov/product/origin/us2000bnrs/us/1517885135040#magnitude</preferredMagnitudeID>
+      <type>earthquake</type>
+      <description>
+        <text>7 km SW of Heunghae, South Korea</text>
+        <type>earthquake name</type>
+      </description>
+      <creationInfo>
+        <agencyID>us</agencyID>
+        <creationTime>2025-12-23T23:45:12.511000Z</creationTime>
+      </creationInfo>
+      <origin publicID="quakeml:earthquake.usgs.gov/product/origin/us2000bnrs/us/1517885135040" ns0:datasource="us" ns0:dataid="us2000bnrs" ns0:eventsource="us" ns0:eventid="2000bnrs">
+        <time>
+          <value>2017-11-15T05:29:32.820000Z</value>
+        </time>
+        <latitude>
+          <value>36.0735</value>
+        </latitude>
+        <longitude>
+          <value>129.28</value>
+        </longitude>
+        <depth>
+          <value>10000.0</value>
+          <uncertainty>800.0</uncertainty>
+        </depth>
+        <quality>
+          <usedPhaseCount>160</usedPhaseCount>
+          <standardError>0.71</standardError>
+          <azimuthalGap>26.0</azimuthalGap>
+          <minimumDistance>1.545</minimumDistance>
+        </quality>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-02-06T02:45:35.040000Z</creationTime>
+        </creationInfo>
+        <originUncertainty>
+          <preferredDescription>horizontal uncertainty</preferredDescription>
+          <horizontalUncertainty>4500.0</horizontalUncertainty>
+        </originUncertainty>
+      </origin>
+      <magnitude publicID="quakeml:earthquake.usgs.gov/product/origin/us2000bnrs/us/1517885135040#magnitude" ns0:datasource="us" ns0:dataid="us2000bnrs" ns0:eventsource="us" ns0:eventid="2000bnrs">
+        <mag>
+          <value>5.5</value>
+          <uncertainty>0.069</uncertainty>
+        </mag>
+        <type>mww</type>
+        <originID>quakeml:earthquake.usgs.gov/product/origin/us2000bnrs/us/1517885135040</originID>
+        <stationCount>20</stationCount>
+        <evaluationMode>manual</evaluationMode>
+        <creationInfo>
+          <agencyID>us</agencyID>
+          <creationTime>2018-02-06T02:45:35.040000Z</creationTime>
+        </creationInfo>
+      </magnitude>
+    </event>
+  </eventParameters>
+</q:quakeml>

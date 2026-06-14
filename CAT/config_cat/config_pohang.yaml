@@ -1,0 +1,121 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  FDSN DOWNLOAD CONFIGURATION
+#  Edit this file, then run  download_catalog_waveforms_station_xml.py
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Output naming ─────────────────────────────────────────────────────────────
+
+# Base name for all catalog files (no extension needed).
+#   Produces:  CAT/<catalog_name>.xml   .txt   .pf
+catalog_name: "pohang"
+
+# Short label used as prefix for event folders and waveform filenames.
+#   Produces:  DATA/<event_label>_yyyy_mm_dd_hh_mm_ss/
+#                   <event_label>_yyyy_mm_dd_hh_mm_ss_NET.STA.mseed
+event_label: "pohang"
+
+# Base name for the station metadata file (no extension).
+#   Produces:  META_DATA/<station_file_name>.xml
+station_file_name: "stations_pohang"
+
+# ── FDSN server ───────────────────────────────────────────────────────────────
+
+# Data centre for STATIONS and WAVEFORMS.  Common values:
+#   IRIS, INGV, GEOFON, ORFEUS, BGR, ETH, RASPISHAKE, NCEDC, SCEDC, GFZ …
+# Full list: https://docs.obspy.org/packages/obspy.clients.fdsn.html
+fdsn_site: "IRIS"
+
+# Data centre for EVENTS (catalog query).
+# Use null to query the same server as fdsn_site.
+# NOTE: IRIS does NOT provide an event service anymore — use USGS (global NEIC
+# catalog) or ISC when fdsn_site is IRIS.
+#   null   → same as fdsn_site
+#   "USGS" → USGS/NEIC global catalog  (best choice when fdsn_site = IRIS)
+#   "ISC"  → International Seismological Centre
+#   "INGV" → Italian catalog
+fdsn_site_events: "USGS"
+
+# ── Time window ───────────────────────────────────────────────────────────────
+
+# Start and end of the search window.  Format: "YYYY-MM-DD HH:MM:SS"
+tmin: "2017-06-01 00:00:00"
+tmax: "2018-06-01 00:00:00"
+
+# ── Search area ───────────────────────────────────────────────────────────────
+
+# Shape of the geographic search area.
+#   "rectangular"  → uses lat_min / lat_max / lon_min / lon_max
+#   "circular"     → uses lat_center / lon_center / radius_km
+area_type: "circular"
+
+# Rectangular bounding box (decimal degrees)
+lat_min:  40.75
+lat_max:  40.95
+lon_min:  14.00
+lon_max:  14.20
+
+# Circular area (decimal degrees / km)
+lat_center:  36.109
+lon_center:  129.330
+radius_km:   200.0
+
+# ── Event filters ─────────────────────────────────────────────────────────────
+
+# Magnitude range.  Use null to disable either bound.
+mag_min:  4.0
+mag_max:  null
+
+# Depth range in km.  Use null to disable either bound.
+depth_min_km:  0.0
+depth_max_km:  30.0
+
+# ── Station search area ───────────────────────────────────────────────────────
+
+# The station search area is ALWAYS circular and INDEPENDENT from the event
+# search area defined above.  Set the centre and radius to taste.
+lat_center_sta:  36.109
+lon_center_sta:  129.330
+radius_km_sta:   1000.0
+
+# ── Station / channel selection ───────────────────────────────────────────────
+
+# FDSN wildcards: * (any string) and ? (exactly one character).
+# Set network: "*" to retrieve ALL networks visible in the area.
+# channel accepts comma-separated patterns:  "HH?,BH?"  "HHZ,HHN,HHE"  "*"
+network:  "*"
+station:  "*"
+location: "*"
+channel:  "HH?,BH?"
+
+# ── Waveform time window ──────────────────────────────────────────────────────
+
+# Seconds BEFORE the event origin time to start the trace.
+t_before_s: 60
+# Seconds AFTER the event origin time to end the trace.
+t_after_s:  300
+
+# ── Download chunking ─────────────────────────────────────────────────────────
+
+# Event queries are split into blocks of this many days to avoid FDSN limits.
+# Reduce if the server returns HTTP 413 or timeout errors on large windows.
+chunk_days: 365
+
+# ── Catalog source ────────────────────────────────────────────────────────────
+
+# Path to an existing QuakeML (.xml) catalog to load instead of querying FDSN.
+#
+#   null          → download catalog from FDSN using the parameters above
+#   "file.xml"    → bare filename: looked up inside CAT/
+#   "/abs/path"   → absolute path used as-is
+#
+# When this is set the event-query parameters (mag_min, mag_max, depth_*,
+# area_type, tmin/tmax for events) are IGNORED for the catalog download.
+# tmin / tmax are still used for the station inventory query.
+existing_catalog_xml: null    # e.g.  "my_catalog.xml"  or  null
+
+# ── Map preview ───────────────────────────────────────────────────────────────
+
+# Backend for the interactive preview map.
+#   "folium"  → HTML map opened in the browser  (pip install folium)
+#   "pygmt"   → static figure via PyGMT          (pip install pygmt)
+map_backend: "folium"
