@@ -4,7 +4,7 @@
   <Sender>IRIS-DMC</Sender>
   <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.52</Module>
   <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?starttime=2017-06-01T00%3A00%3A00.000000&amp;endtime=2018-06-01T00%3A00%3A00.000000&amp;network=%2A&amp;station=%2A&amp;location=%2A&amp;channel=HH%3F%2CBH%3F&amp;level=response&amp;latitude=36.109&amp;longitude=129.33&amp;maxradius=8.983111749910169</ModuleURI>
-  <Created>2026-06-13T22:36:40.484300Z</Created>
+  <Created>2026-06-14T09:43:31.254500Z</Created>
   <Network code="CB" startDate="2000-01-01T00:00:00.000000Z" restrictedStatus="open">
     <Description>China National Seismic Network, Data Management Centre of China National Seismic Network at Institute of Geophysics, CEA (SeisDmc)</Description>
     <Identifier type="DOI">10.7914/SN/CB
