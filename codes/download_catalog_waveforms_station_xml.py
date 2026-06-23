@@ -139,6 +139,16 @@ lat_center_sta:  40.83
 lon_center_sta:  14.14
 radius_km_sta:   50.0
 
+# ── Station source ────────────────────────────────────────────────────────────
+
+# Path to an existing StationXML to load instead of querying FDSN for stations.
+#   null        → query stations from FDSN using the station search area above
+#   "file.xml"  → bare filename: looked up inside META_DATA/
+#   "/abs/path" → absolute path used as-is
+# When set, lat_center_sta / radius_km_sta / network / station / location /
+# channel are IGNORED — the inventory is used exactly as stored in the file.
+existing_stations_xml: null    # e.g.  "stations_flegrei_INGV_final.xml"  or  null
+
 # ── Station / channel selection ───────────────────────────────────────────────
 
 # FDSN wildcards: * (any string) and ? (exactly one character).
@@ -174,19 +184,6 @@ download_mode: "event"
 # Size of each continuous chunk (hours).  24 = one file per day per station.
 # Only used when download_mode is "continuous".
 chunk_hours: 24
-
-# ── Catalog source ────────────────────────────────────────────────────────────
-
-# Path to an existing QuakeML (.xml) catalog to load instead of querying FDSN.
-#
-#   null          → download catalog from FDSN using the parameters above
-#   "file.xml"    → bare filename: looked up inside CAT/
-#   "/abs/path"   → absolute path used as-is
-#
-# When this is set the event-query parameters (mag_min, mag_max, depth_*,
-# area_type, tmin/tmax for events) are IGNORED for the catalog download.
-# tmin / tmax are still used for the station inventory query.
-existing_catalog_xml: null    # e.g.  "my_catalog.xml"  or  null
 
 # ── Map preview ───────────────────────────────────────────────────────────────
 
@@ -232,6 +229,9 @@ def print_config_summary(cfg: dict) -> None:
     print(f"  Station area    : circular  "
           f"centre ({cfg['lat_center_sta']:.4f}, {cfg['lon_center_sta']:.4f})  "
           f"radius {cfg['radius_km_sta']:.1f} km")
+    existing_sta = cfg.get('existing_stations_xml') or None
+    sta_src = f"EXISTING FILE → {existing_sta}" if existing_sta else "FDSN query"
+    print(f"  Station source  : {sta_src}")
     mag_str   = f"{cfg.get('mag_min') or '–'}  –  {cfg.get('mag_max') or '–'}"
     depth_str = (f"{cfg.get('depth_min_km') or '–'}  –  "
                  f"{cfg.get('depth_max_km') or '–'}  km")
@@ -246,9 +246,6 @@ def print_config_summary(cfg: dict) -> None:
     print(f"  Channel         : {cfg['channel']}")
     if mode == 'event':
         print(f"  Waveform window : -{cfg['t_before_s']} s  /  +{cfg['t_after_s']} s")
-        existing = cfg.get('existing_catalog_xml') or None
-        src = f"EXISTING FILE → {existing}" if existing else "FDSN query"
-        print(f"  Catalog source  : {src}")
         print(f"  Catalog name    : {cfg['catalog_name']}")
     print(f"  Event label     : {cfg['event_label']}")
     print(f"  Station file    : {cfg['station_file_name']}")
@@ -327,30 +324,32 @@ def ask_modify_config(path: str, cfg: dict) -> dict:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 2 ─ CATALOG SOURCE
+# 2 ─ EXISTING FILE LOADERS
 # ═════════════════════════════════════════════════════════════════════════════
 
-def _resolve_xml_path(value: str) -> str:
+def _resolve_xml_path(value: str, base_dir: str) -> str:
     """Return absolute path to an XML file.
 
-    Bare filename (no path separator) → looked up in CAT/.
+    Bare filename (no path separator) → looked up in base_dir.
     Anything else → treated as an absolute or relative path.
     """
     if os.sep not in value and '/' not in value:
-        return os.path.join(CAT_DIR, value)
+        return os.path.join(base_dir, value)
     return os.path.abspath(value)
 
 
-def load_catalog_from_xml(xml_path: str) -> Catalog:
-    """Load an existing QuakeML catalog from disk."""
-    from obspy import read_events
+def load_stations_from_xml(xml_path: str):
+    """Load an existing StationXML inventory from disk."""
+    from obspy import read_inventory
     if not os.path.isfile(xml_path):
         print(f"\n  [ERROR] File not found: {xml_path}\n")
         sys.exit(1)
     print(f"  File : {xml_path}")
-    cat = read_events(xml_path)
-    print(f"  {len(cat)} events loaded.\n")
-    return cat
+    inv = read_inventory(xml_path)
+    n_sta = sum(len(net) for net in inv)
+    n_net = len(inv)
+    print(f"  {n_sta} stations across {n_net} network(s) loaded.\n")
+    return inv
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -450,6 +449,18 @@ def query_stations(client: Client, cfg: dict) -> object:
         else:
             print(f"WARNING – {exc}\n")
         return None
+
+
+def get_stations(client: Client, cfg: dict) -> object:
+    """Return station inventory: from an existing StationXML file or FDSN.
+
+    Controlled by config key 'existing_stations_xml'.
+    """
+    existing = cfg.get('existing_stations_xml') or None
+    if existing:
+        print("  Loading stations from existing XML …")
+        return load_stations_from_xml(_resolve_xml_path(existing, META_DIR))
+    return query_stations(client, cfg)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -1058,8 +1069,8 @@ def main() -> None:
     # ══════════════════════════════════════════════════════════════════════════
 
         # ── 3. Stations ───────────────────────────────────────────────────────
-        print(f"[STEP 1/3]  Querying station inventory …")
-        inv   = query_stations(client, cfg)
+        print(f"[STEP 1/3]  Loading station inventory …")
+        inv   = get_stations(client, cfg)
         n_sta = sum(len(net) for net in inv) if inv else 0
 
         # ── 4. Preview map (stations only) ────────────────────────────────────
@@ -1097,23 +1108,18 @@ def main() -> None:
     else:   # mode == 'event'
     # ══════════════════════════════════════════════════════════════════════════
 
-        # ── 3. Events: from existing XML or FDSN ─────────────────────────────
-        existing_xml = cfg.get('existing_catalog_xml') or None
-        if existing_xml:
-            print(f"[STEP 1/4]  Loading catalog from existing XML …")
-            cat = load_catalog_from_xml(_resolve_xml_path(existing_xml))
-        else:
-            ev_site_label = ev_site if ev_site else cfg['fdsn_site']
-            print(f"[STEP 1/4]  Querying event catalog from {ev_site_label} …")
-            cat = query_events(event_client, cfg)
+        # ── 3. Events: query FDSN ─────────────────────────────────────────────
+        ev_site_label = ev_site if ev_site else cfg['fdsn_site']
+        print(f"[STEP 1/4]  Querying event catalog from {ev_site_label} …")
+        cat = query_events(event_client, cfg)
 
         if len(cat) == 0:
             print("\n  No events found. Check your parameters and try again.\n")
             sys.exit(0)
 
         # ── 4. Stations ───────────────────────────────────────────────────────
-        print(f"[STEP 2/4]  Querying station inventory …")
-        inv   = query_stations(client, cfg)
+        print(f"[STEP 2/4]  Loading station inventory …")
+        inv   = get_stations(client, cfg)
         n_sta = sum(len(net) for net in inv) if inv else 0
 
         # ── 5. Preview map ────────────────────────────────────────────────────
